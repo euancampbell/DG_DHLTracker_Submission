@@ -23,6 +23,24 @@ Parameters can come from one of three locations:
 - User input (tracking numer, country, city, radius)
 - settings.py (URLs, mock data, production toggle)
 
+### Setup
+
+1) Add the environment variables.
+```
+> export stu_api_key=<api_key>
+> export lfu_api_key=<api_key>
+```
+2) Update settings.py.
+```
+production = True
+```
+3) Run.
+```
+> python3 implementation_1_Basic.py
+> python3 implementation_2_LessBasic.py
+```
+
+
 ### Future Changes
 A few changes would be recommended for any future implementation.
 
