@@ -4,8 +4,6 @@ import json
 
 from settings import urls
 
-# Task 1 - Develop a function that will return the tracking information of a package by a tracking number
-
 
 def last_tracking_event(tracking_number=None, api_key=None):
     """
@@ -46,15 +44,6 @@ def last_tracking_event(tracking_number=None, api_key=None):
     return last_event
 
 
-tracking_event_1 = last_tracking_event(
-    tracking_number='7777777770', api_key=os.environ['stu_api_key'])
-tracking_event_2 = last_tracking_event(
-    tracking_number='8264715546', api_key=os.environ['stu_api_key'])
-
-
-# Task 2 - Implement a function to get and return the list of all DHL service point locations within the specified radius from the given address.
-
-
 def service_point_locations(api_key=None, country_code=None, city=None, radius=5000):
     """
     Retrieve a list of DHL service point locations within a specified radius from a given address.
@@ -85,8 +74,15 @@ def service_point_locations(api_key=None, country_code=None, city=None, radius=5
     return data
 
 
+# Task 1 - Develop a function that will return the tracking information of a package by a tracking number
+tracking_event_1 = last_tracking_event(
+    tracking_number='7777777770', api_key=os.getenv('stu_api_key', default=None))
+tracking_event_2 = last_tracking_event(
+    tracking_number='8264715546', api_key=os.getenv('stu_api_key', default=None))
+
+# Task 2 - Implement a function to get and return the list of all DHL service point locations within the specified radius from the given address.
 service_location_1 = service_point_locations(
-    api_key=os.environ['lfu_api_key'], country_code='DE', city='NUERNBERG', radius=4000)
+    api_key=os.getenv('lfu', default=None), country_code='DE', city='NUERNBERG', radius=4000)
 
 """
 OUTPUTS

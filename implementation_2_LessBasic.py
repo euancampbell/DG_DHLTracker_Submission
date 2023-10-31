@@ -187,7 +187,7 @@ if __name__ == "__main__":
     service_location_1: CAMON Geschenkartikel, Nürnberg, Kaiserstr. 15
     """
     if mock_data:
-        print('ALERT: MOCK DATA ENABLED\n')
+        print('ALERT: Mock data enabled, this can be updated in settings.py\n')
 
     print('Scenario 1 - tracking 7777777770')
     print(tracking_event_1)
