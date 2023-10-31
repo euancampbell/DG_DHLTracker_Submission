@@ -47,7 +47,7 @@ class DHL:
 
         try:
             print(
-                f'calling {self.base_url}{endpoint} with parameters {params} and API key {self.api_key}')
+                f'calling {self.base_url}{endpoint} with parameters {params}.')
             connection.request("GET", endpoint + params, "", self.headers)
         except:
             raise Exception('Connection error')
@@ -76,7 +76,7 @@ class ShipmentTrackingUnified(DHL):
 
     def __init__(self):
 
-        self.api_key = os.getenv('stu_api_key', default=None)
+        self.api_key = os.getenv('stu_api_key', default='')
         self.base_url = urls['shipment_tracking_unified_base_url']
 
     def track_shipment(self, tracking_id=None):
@@ -137,7 +137,7 @@ class LocationFinderUnified(DHL):
 
         It sets the API key and base URL for location finder services.
         """
-        self.api_key = os.getenv('lfu_api_key', default=None)
+        self.api_key = os.getenv('lfu_api_key', default='')
         self.base_url = urls['location_finder_unified_base_url']
 
     def service_point_locations(self, country_code=None, city=None, radius=5000):
@@ -167,6 +167,9 @@ class LocationFinderUnified(DHL):
 
 if __name__ == "__main__":
 
+    if not production:
+        print('\nALERT: Mock data enabled, this can be changed in settings.py\n')
+
     tracking_event_1 = ShipmentTrackingUnified(
     ).last_tracking_event(tracking_id='7777777770')
 
@@ -177,23 +180,14 @@ if __name__ == "__main__":
                                                                          city='London',
                                                                          radius=5000)
 
-    """
-    OUTPUTS
-
-    tracking_event_1 (7777777770): {'description': 'Shipment picked up'}
-    tracking_event_2 (8264715546): {"title":"No result found","status":404,"detail":"No shipment with given tracking number found."}
-
-
-    service_location_1: CAMON Geschenkartikel, Nürnberg, Kaiserstr. 15
-    """
-    if mock_data:
-        print('ALERT: Mock data enabled, this can be updated in settings.py\n')
-
-    print('Scenario 1 - tracking 7777777770')
+    print('\nScenario 1 - tracking 7777777770')
     print(tracking_event_1)
+    # {'description': 'Shipment picked up'}
 
     print('\nScenario 2 - tracking 8264715546')
     print(tracking_event_2)
+    # {"title":"No result found","status":404,"detail":"No shipment with given tracking number found."}
 
     print('\nExtra Task - Services locations')
     print(service_location_1)
+    # CAMON Geschenkartikel, Nürnberg, Kaiserstr. 15

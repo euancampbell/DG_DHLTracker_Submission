@@ -5,7 +5,7 @@ import json
 from settings import urls
 
 
-def last_tracking_event(tracking_number=None, api_key=None):
+def last_tracking_event(api_key=None, tracking_number=None):
     """
     Retrieve the last tracking event for a package using its tracking number.
 
@@ -76,23 +76,23 @@ def service_point_locations(api_key=None, country_code=None, city=None, radius=5
 
 # Task 1 - Develop a function that will return the tracking information of a package by a tracking number
 tracking_event_1 = last_tracking_event(
-    tracking_number='7777777770', api_key=os.getenv('stu_api_key', default=None))
+    api_key=os.getenv('stu_api_key', default=''), tracking_number='7777777770')
 tracking_event_2 = last_tracking_event(
-    tracking_number='8264715546', api_key=os.getenv('stu_api_key', default=None))
+    api_key=os.getenv('stu_api_key', default=''), tracking_number='8264715546')
 
 # Task 2 - Implement a function to get and return the list of all DHL service point locations within the specified radius from the given address.
 service_location_1 = service_point_locations(
-    api_key=os.getenv('lfu', default=None), country_code='DE', city='NUERNBERG', radius=4000)
-
-"""
-OUTPUTS
-
-tracking_event_1 (7777777770): {'description': 'Shipment picked up'}
-tracking_event_2 (8264715546): {"title":"No result found","status":404,"detail":"No shipment with given tracking number found."}
+    api_key=os.getenv('lfu_api_key', default=''), country_code='DE', city='NUERNBERG', radius=4000)
 
 
-service_location_1: CAMON Geschenkartikel, Nürnberg, Kaiserstr. 15
-"""
+print('Scenario 1 - tracking 7777777770')
 print(tracking_event_1)
+# {'description': 'Shipment picked up'}
+
+print('\nScenario 2 - tracking 8264715546')
 print(tracking_event_2)
+#  {"title":"No result found","status":404,"detail":"No shipment with given tracking number found."}
+
+print('\nExtra Task - Services locations')
 print(service_location_1)
+# CAMON Geschenkartikel, Nürnberg, Kaiserstr. 15
