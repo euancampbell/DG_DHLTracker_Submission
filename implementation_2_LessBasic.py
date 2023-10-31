@@ -60,6 +60,17 @@ class DHL:
 
 class ShipmentTrackingUnified(DHL):
 
+    """
+    A class for unified shipment tracking using the DHL API.
+
+    This class extends the DHL API functionality to provide shipment tracking services for DHL shipments.
+
+    Attributes:
+        api_key (str): The DHL API key required for authentication.
+        base_url (str): The base URL for the shipment tracking API.
+
+    """
+
     def __init__(self):
 
         self.api_key = os.environ['stu_api_key']
