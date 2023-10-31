@@ -29,7 +29,10 @@ class DHL:
         """
         if not production:
             # Return mock data for testing purposes in a non-production environment
-            return mock_data[endpoint]['scenario_1']
+            try:
+                return mock_data[endpoint][str(params)]
+            except KeyError:
+                return {'error': 'mock data not found'}
 
         params = urllib.parse.urlencode(params)
 
@@ -73,7 +76,7 @@ class ShipmentTrackingUnified(DHL):
 
     def __init__(self):
 
-        self.api_key = os.environ['stu_api_key']
+        self.api_key = os.getenv('stu_api_key', default=None)
         self.base_url = urls['shipment_tracking_unified_base_url']
 
     def track_shipment(self, tracking_id=None):
@@ -92,8 +95,7 @@ class ShipmentTrackingUnified(DHL):
         }
 
         # Call the 'track_shipments' API endpoint
-        details = self.call_endpoint(
-            self.api_key, urls['track_shipments'], params)
+        details = self.call_endpoint(urls['track_shipments'], params)
 
         return details
 
@@ -107,7 +109,7 @@ class ShipmentTrackingUnified(DHL):
         Returns:
             dict: Details of the last tracking event.
         """
-        all_details = self.track_shipment(self.api_key, tracking_id)
+        all_details = self.track_shipment(tracking_id)
 
         # Retrieve the last tracking event from the shipment's events list
         if 'status' in all_details:
@@ -135,7 +137,7 @@ class LocationFinderUnified(DHL):
 
         It sets the API key and base URL for location finder services.
         """
-        self.api_key = os.environ['lfu_api_key']
+        self.api_key = os.getenv('lfu_api_key', default=None)
         self.base_url = urls['location_finder_unified_base_url']
 
     def service_point_locations(self, country_code=None, city=None, radius=5000):
@@ -184,7 +186,14 @@ if __name__ == "__main__":
 
     service_location_1: CAMON Geschenkartikel, Nürnberg, Kaiserstr. 15
     """
+    if mock_data:
+        print('ALERT: MOCK DATA ENABLED\n')
 
+    print('Scenario 1 - tracking 7777777770')
     print(tracking_event_1)
+
+    print('\nScenario 2 - tracking 8264715546')
     print(tracking_event_2)
+
+    print('\nExtra Task - Services locations')
     print(service_location_1)
